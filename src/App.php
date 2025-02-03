@@ -2,8 +2,7 @@
 
 namespace Tero;
 
-use Garden\Cli\Cli;
-use stdClass;
+use Garden\Cli\Cli; 
 use Tero\Endpoints\GenericEndpoint;
 use Tero\Services\GenericService;
 
@@ -16,7 +15,8 @@ class App{
         $cli->description('Acciones sobre la API LM')
             ->opt('action:a', 'Action of llm api.', true)
             ->opt('lang:l', 'Code language', false)
-            ->opt('prompt:p', 'String prompt', false);
+            ->opt('prompt:p', 'String prompt', false)
+            ->opt('file:f', 'File path store', false);
         
         // Parse and return cli args.
         $args = $cli->parse((array)$_SERVER["argv"], true);

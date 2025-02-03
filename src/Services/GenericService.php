@@ -39,11 +39,15 @@ class GenericService{
         ]); 
 
         $body = json_decode($response->getBody());
-        $code =  $body->choices[0]->message->content;
+        $code = $body->choices[0]->message->content;
 
-        die($code);
+        $code = CodeService::Distill($code);
 
+        $file = $args->getOpt('file', FALSE);
 
+        if( $file ){
+            file_put_contents("{$_ENV["BASEPATH"]}/{$file}", $code);
+        }
     }
 
     public function completions(array $data){
