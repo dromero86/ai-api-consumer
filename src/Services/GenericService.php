@@ -8,6 +8,7 @@ use stdClass;
 
 class GenericService{
     
+
     private $endpoint;
 
     function __construct(GenericEndpoint $endpoint){
@@ -21,26 +22,36 @@ class GenericService{
 
     public function chat_completions( Args $args ){
 
-
-        $prompt = new PromptService();
-        $resource = $prompt->resourceDecode($args->getOpt('resource'));
-
+        $prompt = new PromptService($args->getOpt('prompt'), $args->getOpt('resource'), $args->getOpt('lang', 'php'), $_ENV['AI_REST']);
 
         $assistant              = new stdClass;
         $assistant->role        = "user";
-        $assistant->content     = "{$args->getOpt('prompt')}. Lenguaje: {$args->getOpt('lang')} . {$_ENV['AI_REST']}";
+        $assistant->content     = $prompt->render();
 
         $request                = new stdClass;
         $request->model         = $_ENV["AI_MODEL"];
-        $request->temperature   = 0.7;
-        $request->max_tokens    = -1;
+
+        if( isset($_SERVER['AI_PORT']) )
+        {
+            $request->temperature   = 0.7;
+            $request->max_tokens    = -1;
+        }
+        
         $request->stream        = false;
+        $request->store         = true;
         $request->messages      = [ $assistant ]; 
 
+        $headers = [];
+
+        $headers[ 'Content-Type' ]= 'application/json';
+
+        if(isset($_ENV['AI_TOKEN'])){
+            $headers[ 'Authorization' ]= "Bearer {$_ENV['AI_TOKEN']}";            
+        }
+
         $response = $this->endpoint->chat_completions([
-            "headers"   => [ 'Content-Type' => 'application/json' ],
-            "body"      => json_encode( $request ), 
-            //'connect_timeout' => 30
+            "headers"   => $headers,
+            "body"      => json_encode( $request )
         ]); 
 
         $body = json_decode($response->getBody());
@@ -48,7 +59,7 @@ class GenericService{
 
         $code = CodeService::Distill($code);
 
-        $file = $args->getOpt('file', FALSE);
+        $file = $prompt->getPath();
 
         if( $file ){
             file_put_contents("{$_ENV["BASEPATH"]}/{$file}", $code);

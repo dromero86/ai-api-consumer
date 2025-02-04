@@ -16,7 +16,7 @@ class App{
             ->opt('action:a', 'Action of llm api.', true)
             ->opt('lang:l', 'Code language', false)
             ->opt('prompt:p', 'String prompt', false)
-            ->opt('file:f', 'File path store', false);
+            ->opt('resource:r', 'Resource to create', false);
         
         // Parse and return cli args.
         $args = $cli->parse((array)$_SERVER["argv"], true);

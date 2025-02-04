@@ -7,8 +7,24 @@ use stdClass;
 class PromptService {
 
     const EXT = 'php';
-    const NS = '{main}\\{module}';
+    const NS = '{main}\\\\{module}';
     const PATH = 'src/{module}/{classname}.{ext}';
+
+    private $_prompt="";
+    private $_resource="";
+    private $_language="";
+    private $_restriction="";
+
+    private $_resourceObject = NULL;
+
+    function __construct(string $promptText, string $resourceText, string $languageText, string $restrictionText )
+    {
+        $this->_prompt = $promptText;
+        $this->_resource = $resourceText;
+        $this->_language = $languageText;
+        $this->_restriction = $restrictionText;
+        $this->_resourceObject = NULL;
+    }
 
 	private function _replace($str, $arr) 
 	{ 
@@ -19,9 +35,9 @@ class PromptService {
 		return $str;
 	}
 
-    public function resourceDecode(string $value){
-
-        $item = explode("/", $value);
+    public function resourceDecode()
+    {
+        $item = explode("/", $this->_resource);
 
         $resource = new stdClass;
         $resource->main = "Tero";
@@ -31,15 +47,33 @@ class PromptService {
         $resource->namespace = $this->_replace(self::NS, ["main"=> $resource->main, "module"=> $resource->module ]);
         $resource->path = $this->_replace(self::PATH, ["main"=> $resource->main, "module"=> $resource->module, "ext"=> $resource->ext ]);
 
-        return $resource;
+        $this->_resourceObject = $resource;
     }
 
-    public function replaceResource($text, $resource){
+    public function replaceResource()
+    {
+        $this->resourceDecode();
+        return $this->_replace($this->_prompt, (array)$this->_resourceObject);
+    }
 
-        return $this->_replace($text, [
-            "main"=> $resource->main, 
-            "module"=> $resource->module, 
-            "ext"=> $resource->ext 
-        ]);
+    public function render()
+    {
+        $data   = [];
+        $data []= $this->replaceResource();
+        $data []= "Debe estar en el namespace {$this->getNamespace()}";
+        $data []= "Lenguaje: ".strtoupper($this->_language);
+        $data []= "{$this->_restriction}"; 
+
+        return implode(". ", $data);
+    }
+
+    public function getPath(){
+        if($this->_resourceObject)
+            return $this->_replace($this->_resourceObject->path, (array)$this->_resourceObject); 
+    }
+
+    public function getNamespace(){
+        if($this->_resourceObject)
+            return $this->_resourceObject->namespace;
     }
 }

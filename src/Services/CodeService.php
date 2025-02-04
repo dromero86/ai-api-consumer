@@ -14,8 +14,12 @@ class CodeService {
             $input = $text;
             preg_match($pattern, $input, $matches);
 
-            if(isset($matches[1]))
-                return trim($matches[1]);
+            if(isset($matches[1])){
+                $text = trim($matches[1]);
+                $text = str_replace("?>","", $text);
+
+                return $text;
+            }
             else 
                 return $text;
         }
