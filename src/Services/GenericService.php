@@ -21,6 +21,11 @@ class GenericService{
 
     public function chat_completions( Args $args ){
 
+
+        $prompt = new PromptService();
+        $resource = $prompt->resourceDecode($args->getOpt('resource'));
+
+
         $assistant              = new stdClass;
         $assistant->role        = "user";
         $assistant->content     = "{$args->getOpt('prompt')}. Lenguaje: {$args->getOpt('lang')} . {$_ENV['AI_REST']}";
