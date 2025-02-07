@@ -13,12 +13,12 @@
 
     "console": {
         "message": "Actions over LLM api",
-        "args":{
-            "action":{ "key":"a", "details":"Action of llm api", "required": true },
-            "lang":{ "key":"l", "details":"Code language", "required": false },
-            "prompt":{ "key":"p", "details":"String promp", "required": false },
-            "resource":{ "key":"r", "details":"Resource to create", "required": false }
-        }
+        "args":[
+            { "name":"action", "key":"a", "details":"Action of llm api", "required": true },
+            { "name":"lang", "key":"l", "details":"Code language", "required": false },
+            { "name":"prompt", "key":"p", "details":"String promp", "required": false },
+            { "name":"resource", "key":"r", "details":"Resource to create", "required": false }
+        ]
     },
 
     "prompt":[

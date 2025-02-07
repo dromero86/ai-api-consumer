@@ -8,20 +8,24 @@ use Tero\Services\GenericService;
 class EntrypointService{
 
     private GenericService $genericService;
+    private ConfigService $configService;
     private Cli $console;
 
-    public function __construct( GenericService $genericService, Cli $console){
+    public function __construct( GenericService $genericService, Cli $console, ConfigService $configService){
         $this->genericService = $genericService;
         $this->console = $console;
+        $this->configService = $configService;
     }
 
     public function main(){
 
-        $this->console->description('Acciones sobre la API LM')
-            ->opt('action:a', 'Action of llm api.', true)
-            ->opt('lang:l', 'Code language', false)
-            ->opt('prompt:p', 'String prompt', false)
-            ->opt('resource:r', 'Resource to create', false);
+        $console = $this->configService->get('console');
+
+        $this->console->description($console->message);
+
+        foreach($console->args as $item){
+            $this->console->opt("{$item->name}:{$item->key}", "{$item->details}", $item->required);
+        }
         
         $args = $this->console->parse((array)$_SERVER["argv"], true);
   
