@@ -24,6 +24,8 @@ class ResponseService{
         $body = json_decode($this->response->getBody());
         $code = $body->choices[0]->message->content;
 
+        echo var_export($body,true);
+
         return $this->codeService->distill($code);
 
     }

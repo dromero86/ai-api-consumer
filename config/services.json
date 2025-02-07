@@ -7,8 +7,8 @@
     "api":{
         "models": { "method": "GET", "url":"{domain}/v1/models" },
         "chat_completions": { "method": "POST", "url":"{domain}/v1/chat/completions" },
-        "completions": { "method": "GET", "url":"{domain}/v1/completions" },
-        "embeddings": { "method": "GET", "url":"{domain}/v1/embeddings" }
+        "completions": { "method": "POST", "url":"{domain}/v1/completions" },
+        "embeddings": { "method": "POST", "url":"{domain}/v1/embeddings" }
     },
 
     "console": {
@@ -26,5 +26,10 @@
         "Must be in the namespace {namespace}",
         "Language: {lang}",
         "{restriction}"
-    ]
+    ],
+
+    "debug": {
+        "debug_prompts": true,
+        "debug_response": true
+    }
 }

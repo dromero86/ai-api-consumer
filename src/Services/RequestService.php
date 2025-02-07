@@ -40,6 +40,8 @@ class RequestService{
             $headers[ 'Authorization' ]= "Bearer {$_ENV['AI_TOKEN']}";            
         }
 
+        echo $this->prompt."\n";
+
         return [
             "headers"   => $headers,
             "body"      => json_encode( $request )
