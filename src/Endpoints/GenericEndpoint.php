@@ -1,20 +1,21 @@
 <?php 
 
 namespace Tero\Endpoints;
- 
+
+use \GuzzleHttp\Client;
 
 class GenericEndpoint{
     
-    private $client;
-    private $_domain;
+    private Client $client;
+    private string $_domain;
 
-    function __construct(){
-        $this->client = new \GuzzleHttp\Client();
+    function __construct(Client $client){
+        $this->client = $client;
 
         if( isset($_SERVER['AI_PORT']) )
             $this->_domain = "http://{$_SERVER['AI_HOST']}:{$_SERVER['AI_PORT']}";
         else
-        $this->_domain = "https://{$_SERVER['AI_HOST']}";
+            $this->_domain = "https://{$_SERVER['AI_HOST']}";
     }
 
     public function models(){

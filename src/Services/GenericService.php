@@ -2,6 +2,7 @@
 
 namespace Tero\Services;
 
+use Dotenv\Util\Regex;
 use Garden\Cli\Args;
 use Tero\Endpoints\GenericEndpoint;
 use stdClass;
@@ -9,9 +10,15 @@ use stdClass;
 class GenericService{
     
     private $endpoint;
+    private PromptService $promptService;
+    private RequestService $requestService;
+    private ResponseService $responseService;
 
-    function __construct(GenericEndpoint $endpoint){
+    function __construct(GenericEndpoint $endpoint, PromptService $promptService, RequestService $requestService, ResponseService $responseService){
         $this->endpoint = $endpoint;
+        $this->promptService = $promptService;
+        $this->requestService = $requestService;
+        $this->responseService = $responseService;
     }
 
     public function models(){
@@ -21,57 +28,31 @@ class GenericService{
 
     public function chat_completions( Args $args ){
 
-        $prompt = new PromptService($args->getOpt('prompt'), $args->getOpt('resource'), $args->getOpt('lang', 'php'), $_ENV['AI_REST']);
+        $this->promptService->load($args->getOpt('prompt'), $args->getOpt('resource'), $args->getOpt('lang', 'php'), $_ENV['AI_REST']);
 
-        $assistant              = new stdClass;
-        $assistant->role        = "user";
-        $assistant->content     = $prompt->render();
+        $request  = $this->requestService->setPrompt($this->promptService->render())
+                                         ->chat_completions();
+                                         
+        $response = $this->endpoint->chat_completions( $request ); 
 
-        $request                = new stdClass;
-        $request->model         = $_ENV["AI_MODEL"];
+        $code = $this->responseService->setResponse($response)
+                                        ->chat_completions();
 
-        //If host is ip (local model)
-        if(filter_var($_ENV['AI_HOST'], FILTER_VALIDATE_IP) !== false) {
-        {
-            $request->temperature   = 0.7;
-            $request->max_tokens    = -1;
-        }
+        $file = $this->promptService->getPath();
+
+        if( !$file ) $this->responseService->print($code);
         
-        $request->stream        = false;
-        $request->store         = true;
-        $request->messages      = [ $assistant ]; 
-
-        $headers = [];
-
-        $headers[ 'Content-Type' ]= 'application/json';
-
-        if(isset($_ENV['AI_TOKEN'])){
-            $headers[ 'Authorization' ]= "Bearer {$_ENV['AI_TOKEN']}";            
-        }
-
-        $response = $this->endpoint->chat_completions([
-            "headers"   => $headers,
-            "body"      => json_encode( $request )
-        ]); 
-
-        $body = json_decode($response->getBody());
-        $code = $body->choices[0]->message->content;
-
-        $code = CodeService::Distill($code);
-
-        $file = $prompt->getPath();
-
-        if( $file ){
-            file_put_contents("{$_ENV["BASEPATH"]}/{$file}", $code);
-        }
+        $this->responseService->save($file, $code);
     }
 
-    public function completions(array $data){
+    public function completions(array $data)
+    {
         $response = $this->endpoint->completions($data);
         die($response->getBody());
     }
 
-    public function embeddings(array $data){
+    public function embeddings(array $data)
+    {
         $response = $this->endpoint->embeddings($data);
         die($response->getBody());
     }

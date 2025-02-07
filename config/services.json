@@ -1,3 +1,30 @@
 {
-    "classpath": ["src/Services/*.php", "src/Endpoints/*.php"]
+    "inyector": {
+        "namespace": "Tero",
+        "path": "{basepath}/src"
+    },
+
+    "api":{
+        "models": { "method": "GET", "url":"{domain}/v1/models" },
+        "chat_completions": { "method": "POST", "url":"{domain}/v1/chat/completions" },
+        "completions": { "method": "GET", "url":"{domain}/v1/completions" },
+        "embeddings": { "method": "GET", "url":"{domain}/v1/embeddings" }
+    },
+
+    "console": {
+        "message": "Actions over LLM api",
+        "args":{
+            "action":{ "key":"a", "details":"Action of llm api", "required": true },
+            "lang":{ "key":"l", "details":"Code language", "required": false },
+            "prompt":{ "key":"p", "details":"String promp", "required": false },
+            "resource":{ "key":"r", "details":"Resource to create", "required": false }
+        }
+    },
+
+    "prompt":[
+        "{user_request}",
+        "Must be in the namespace {namespace}",
+        "Language: {lang}",
+        "{restriction}"
+    ]
 }

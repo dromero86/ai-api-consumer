@@ -17,7 +17,7 @@ class PromptService {
 
     private $_resourceObject = NULL;
 
-    function __construct(string $promptText, string $resourceText, string $languageText, string $restrictionText )
+    function load(string $promptText, string $resourceText, string $languageText, string $restrictionText )
     {
         $this->_prompt          = $promptText;
         $this->_resource        = $resourceText;

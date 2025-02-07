@@ -6,7 +6,7 @@ class CodeService {
 
     const LANG = 'php';
 
-    public static function Distill(string $text){
+    public function distill(string $text){
 
         if( stripos($text, "```".self::LANG) < 0 ) return $text;
 
