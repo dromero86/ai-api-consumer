@@ -45,14 +45,12 @@ class GenericService{
         $this->responseService->save($file, $code);
     }
 
-    public function completions(array $data)
-    {
+    public function completions(array $data){
         $response = $this->endpoint->completions($data);
         die($response->getBody());
     }
 
-    public function embeddings(array $data)
-    {
+    public function embeddings(array $data){
         $response = $this->endpoint->embeddings($data);
         die($response->getBody());
     }

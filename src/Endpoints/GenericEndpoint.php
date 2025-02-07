@@ -3,34 +3,54 @@
 namespace Tero\Endpoints;
 
 use \GuzzleHttp\Client;
+use Tero\Services\ConfigService;
 
 class GenericEndpoint{
     
     private Client $client;
+    private ConfigService $configService;
     private string $_domain;
 
-    function __construct(Client $client){
+    function __construct(Client $client, ConfigService $configService ){
         $this->client = $client;
+        $this->configService = $configService;
 
-        if( isset($_SERVER['AI_PORT']) )
-            $this->_domain = "http://{$_SERVER['AI_HOST']}:{$_SERVER['AI_PORT']}";
-        else
-            $this->_domain = "https://{$_SERVER['AI_HOST']}";
+        $this->_domain = isset($_SERVER['AI_PORT']) ? "http://{$_SERVER['AI_HOST']}:{$_SERVER['AI_PORT']}" : "https://{$_SERVER['AI_HOST']}" ;
     }
 
     public function models(){
-        return $this->client->request('GET', "{$this->_domain}/v1/models");  
+
+        $api = $this->configService->get('api')->models;
+
+        $link = $this->configService->replace($api->url, [ "domain" => $this->_domain ]);
+
+        return $this->client->request($api->method, $link);
     }
 
     public function chat_completions(array $data){
-        return $this->client->request('POST', "{$this->_domain}/v1/chat/completions", $data);
+
+        $api = $this->configService->get('api')->chat_completions;
+
+        $link = $this->configService->replace($api->url, [ "domain" => $this->_domain ]);
+
+        return $this->client->request($api->method, $link, $data);
     }
 
     public function completions(array $data){
-        return $this->client->request('POST', "{$this->_domain}/v1/completions", $data);
+
+        $api = $this->configService->get('api')->completions;
+
+        $link = $this->configService->replace($api->url, [ "domain" => $this->_domain ]);
+
+        return $this->client->request($api->method, $link, $data);
     }
 
     public function embeddings(array $data){
-        return $this->client->request('POST', "{$this->_domain}/v1/embeddings", $data);
+        
+        $api = $this->configService->get('api')->completions;
+
+        $link = $this->configService->replace($api->url, [ "domain" => $this->_domain ]);
+
+        return $this->client->request($api->method, $link, $data);
     }
 }

@@ -9,8 +9,7 @@ class ResponseService{
     private $response;
     private CodeService $codeService;
 
-    public function __construct(CodeService $codeService)
-    {
+    public function __construct(CodeService $codeService){
         $this->codeService = $codeService;
     }
 
@@ -20,14 +19,10 @@ class ResponseService{
     }
 
     public function chat_completions(){
-
         $body = json_decode($this->response->getBody());
         $code = $body->choices[0]->message->content;
-
         echo var_export($body,true);
-
         return $this->codeService->distill($code);
-
     }
 
     public function save($file, $code){

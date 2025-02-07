@@ -17,8 +17,7 @@ class PromptService {
 
     private $_resourceObject = NULL;
 
-    function load(string $promptText, string $resourceText, string $languageText, string $restrictionText )
-    {
+    function load(string $promptText, string $resourceText, string $languageText, string $restrictionText ){
         $this->_prompt          = $promptText;
         $this->_resource        = $resourceText;
         $this->_language        = $languageText;
@@ -26,8 +25,7 @@ class PromptService {
         $this->_resourceObject  = NULL;
     }
 
-	private function _replace($str, $arr) 
-	{ 
+	private function _replace($str, $arr) { 
 		foreach ($arr as $k => $v) 
 		{
 			$str = str_replace('{'.$k.'}', $v, $str);
@@ -35,8 +33,7 @@ class PromptService {
 		return $str;
 	}
 
-    public function resourceDecode()
-    {
+    public function resourceDecode(){
         $item = explode("/", $this->_resource);
 
         $resource               = new stdClass;
@@ -50,14 +47,12 @@ class PromptService {
         $this->_resourceObject = $resource;
     }
 
-    public function replaceResource()
-    {
+    public function replaceResource(){
         $this->resourceDecode();
         return $this->_replace($this->_prompt, (array)$this->_resourceObject);
     }
 
-    public function render()
-    {
+    public function render(){
         $data   = [];
         $data []= $this->replaceResource();
         $data []= "Debe estar en el namespace {$this->getNamespace()}";

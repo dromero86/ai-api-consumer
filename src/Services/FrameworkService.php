@@ -21,11 +21,9 @@ class FrameworkService {
     public function dependencyInyection($directory){
         $containerBuilder = new ContainerBuilder();
         $containerBuilder->useAutowiring(true); 
-        
-        // Configuración de directorios sin Symfony
         $containerBuilder->addDefinitions([
             'directories' => [
-                $directory . '/src'  // Tu directorio de clases
+                $directory . '/src' 
             ]
         ]);
         

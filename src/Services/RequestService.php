@@ -21,7 +21,6 @@ class RequestService{
         $request                = new stdClass;
         $request->model         = $_ENV["AI_MODEL"];
 
-        //If host is ip (local model)
         if(filter_var($_ENV['AI_HOST'], FILTER_VALIDATE_IP) !== false) 
         {
             $request->temperature   = 0.7;
