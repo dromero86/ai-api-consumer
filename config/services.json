@@ -1,0 +1,3 @@
+{
+    "classpath": ["src/Services/*.php", "src/Endpoints/*.php"]
+}

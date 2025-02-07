@@ -8,24 +8,17 @@ class CodeService {
 
     public static function Distill(string $text){
 
-        if( stripos($text, "```".self::LANG) > -1 )
-        {
-            $pattern = "/```".self::LANG."(.*?)```/s";
-            $input = $text;
-            preg_match($pattern, $input, $matches);
+        if( stripos($text, "```".self::LANG) < 0 ) return $text;
 
-            if(isset($matches[1])){
-                $text = trim($matches[1]);
-                $text = str_replace("?>","", $text);
+        $pattern = "/```".self::LANG."(.*?)```/s";
+        $input = $text;
+        preg_match($pattern, $input, $matches);
 
-                return $text;
-            }
-            else 
-                return $text;
-        }
-        else 
-        {
-            return $text;
-        }
+        if(!isset($matches[1]))return $text;
+
+        $text = trim($matches[1]);
+        $text = str_replace("?>","", $text);
+
+        return $text;
     }
 }

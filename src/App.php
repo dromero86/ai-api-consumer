@@ -4,11 +4,16 @@ namespace Tero;
 
 use Garden\Cli\Cli; 
 use Tero\Endpoints\GenericEndpoint;
+use Tero\Services\FrameworkService;
 use Tero\Services\GenericService;
 
 class App{
 
-    public static function Run(){
+    public static function Run($directory){
+
+        $framework = new FrameworkService();
+        $framework->dotEnvLoad($directory);
+        $framework->setEnvVars(["BASEPATH"=> $directory]);
 
         $cli = new Cli();
 

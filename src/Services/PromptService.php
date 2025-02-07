@@ -10,20 +10,20 @@ class PromptService {
     const NS = '{main}\\\\{module}';
     const PATH = 'src/{module}/{classname}.{ext}';
 
-    private $_prompt="";
-    private $_resource="";
-    private $_language="";
-    private $_restriction="";
+    private string $_prompt     = "";
+    private string $_resource   = "";
+    private string $_language   = "";
+    private string $_restriction= "";
 
     private $_resourceObject = NULL;
 
     function __construct(string $promptText, string $resourceText, string $languageText, string $restrictionText )
     {
-        $this->_prompt = $promptText;
-        $this->_resource = $resourceText;
-        $this->_language = $languageText;
-        $this->_restriction = $restrictionText;
-        $this->_resourceObject = NULL;
+        $this->_prompt          = $promptText;
+        $this->_resource        = $resourceText;
+        $this->_language        = $languageText;
+        $this->_restriction     = $restrictionText;
+        $this->_resourceObject  = NULL;
     }
 
 	private function _replace($str, $arr) 
@@ -39,13 +39,13 @@ class PromptService {
     {
         $item = explode("/", $this->_resource);
 
-        $resource = new stdClass;
-        $resource->main = "Tero";
-        $resource->module =  $item[0];
-        $resource->classname = $item[1];
-        $resource->ext = self::EXT;
-        $resource->namespace = $this->_replace(self::NS, ["main"=> $resource->main, "module"=> $resource->module ]);
-        $resource->path = $this->_replace(self::PATH, ["main"=> $resource->main, "module"=> $resource->module, "ext"=> $resource->ext ]);
+        $resource               = new stdClass;
+        $resource->main         = "Tero";
+        $resource->module       = $item[0];
+        $resource->classname    = $item[1];
+        $resource->ext          = self::EXT;
+        $resource->namespace    = $this->_replace(self::NS, ["main"=> $resource->main, "module"=> $resource->module ]);
+        $resource->path         = $this->_replace(self::PATH, ["main"=> $resource->main, "module"=> $resource->module, "ext"=> $resource->ext ]);
 
         $this->_resourceObject = $resource;
     }

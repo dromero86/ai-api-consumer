@@ -8,7 +8,6 @@ use stdClass;
 
 class GenericService{
     
-
     private $endpoint;
 
     function __construct(GenericEndpoint $endpoint){
@@ -31,7 +30,8 @@ class GenericService{
         $request                = new stdClass;
         $request->model         = $_ENV["AI_MODEL"];
 
-        if( isset($_SERVER['AI_PORT']) )
+        //If host is ip (local model)
+        if(filter_var($_ENV['AI_HOST'], FILTER_VALIDATE_IP) !== false) {
         {
             $request->temperature   = 0.7;
             $request->max_tokens    = -1;
