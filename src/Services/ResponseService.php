@@ -2,15 +2,22 @@
 
 namespace Tero\Services;
 
-use stdClass;
+use Tero\Services\ConfigService;
 
 class ResponseService{
 
     private $response;
     private CodeService $codeService;
+    private ConfigService $configService;
+    private $debug;
+    private $log;
 
-    public function __construct(CodeService $codeService){
+    public function __construct(CodeService $codeService, ConfigService $configService){
         $this->codeService = $codeService;
+        $this->configService = $configService;
+
+        $this->debug = $this->configService->get('debug');
+        $this->log = $this->configService->get('log');
     }
 
     public function setResponse($response){
@@ -21,7 +28,10 @@ class ResponseService{
     public function chat_completions(){
         $body = json_decode($this->response->getBody());
         $code = $body->choices[0]->message->content;
-        echo var_export($body,true);
+
+        if($this->log->enable)
+            file_put_contents( $this->configService->replace($this->log->file, ['BASEPATH'=> $_ENV['BASEPATH'] ]) , date('Y-m-d [H:i:s]', time()).": ".json_encode($body)."\n", FILE_APPEND); 
+
         return $this->codeService->distill($code);
     }
 

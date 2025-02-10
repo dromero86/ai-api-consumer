@@ -2,6 +2,8 @@
 
 namespace Tero\Services;
 
+use RuntimeException;
+
 class ConfigService { 
 
     private string $file = "config/services.json";
@@ -11,6 +13,8 @@ class ConfigService {
     public function __construct(){
 
         $path = $_ENV["BASEPATH"]."/{$this->file}";
+
+        if( !file_exists($path) ) throw new RuntimeException("Config file no exists {$path}");
 
         $data = file_get_contents($path);
 

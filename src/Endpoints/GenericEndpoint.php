@@ -15,7 +15,10 @@ class GenericEndpoint{
         $this->client = $client;
         $this->configService = $configService;
 
-        $this->_domain = isset($_SERVER['AI_PORT']) ? "http://{$_SERVER['AI_HOST']}:{$_SERVER['AI_PORT']}" : "https://{$_SERVER['AI_HOST']}" ;
+        $host = $this->configService->get('host');  
+
+        $this->_domain = isset($_ENV['AI_PORT']) ? $this->configService->replace($host->local , [ "AI_HOST" => $_ENV['AI_HOST'], "AI_PORT" => $_ENV['AI_PORT'] ]) : $this->configService->replace($host->remote, [ "AI_HOST" => $_ENV['AI_HOST'] ]) ;
+    
     }
 
     public function models(){

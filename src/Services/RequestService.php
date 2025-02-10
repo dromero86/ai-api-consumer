@@ -3,10 +3,22 @@
 namespace Tero\Services;
 
 use stdClass;
+use Tero\Services\ConfigService;
 
 class RequestService{
 
     private string $prompt;
+    private ConfigService $configService;
+    private $debug;
+    private $log;
+
+    public function __construct(ConfigService $configService)
+    {
+        $this->configService = $configService;
+
+        $this->debug = $this->configService->get('debug');
+        $this->log = $this->configService->get('log');
+    }
 
     public function setPrompt(string $prompt){
         $this->prompt = $prompt;
@@ -38,8 +50,9 @@ class RequestService{
         if(isset($_ENV['AI_TOKEN'])){
             $headers[ 'Authorization' ]= "Bearer {$_ENV['AI_TOKEN']}";            
         }
-
-        echo $this->prompt."\n";
+ 
+        if($this->log->enable)
+            file_put_contents( $this->configService->replace($this->log->file, ['BASEPATH'=> $_ENV['BASEPATH'] ]) , date('Y-m-d [H:i:s]', time()).": ".$this->prompt."\n", FILE_APPEND); 
 
         return [
             "headers"   => $headers,

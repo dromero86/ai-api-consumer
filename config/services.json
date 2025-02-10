@@ -4,6 +4,11 @@
         "path": "{basepath}/src"
     },
 
+    "host": {
+        "local": "http://{AI_HOST}:{AI_PORT}",
+        "remote": "https://{AI_HOST}"
+    },
+
     "api":{
         "models": { "method": "GET", "url":"{domain}/v1/models" },
         "chat_completions": { "method": "POST", "url":"{domain}/v1/chat/completions" },
@@ -21,15 +26,25 @@
         ]
     },
 
-    "prompt":[
-        "{user_request}",
-        "Must be in the namespace {namespace}",
-        "Language: {lang}",
-        "{restriction}"
-    ],
+    "prompt":{
+        "request": "{user_request}",
+        "namespace": "Must be in the namespace {namespace}",
+        "language":"Language: {lang}",
+        "restriction":"{restriction}"
+    },
+
+    "code":{
+        "search": "```php",
+        "wrapper":"/```php(.*?)```/s"
+    },
 
     "debug": {
         "debug_prompts": true,
         "debug_response": true
+    },
+
+    "log":{
+        "enable": true,
+        "file": "{BASEPATH}/prompt.log"
     }
 }
