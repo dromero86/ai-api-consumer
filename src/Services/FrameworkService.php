@@ -18,13 +18,12 @@ class FrameworkService {
         $dotenv->load();
     }
 
-    public function dependencyInyection($directory){
+    public function dependencyInyection(){
+
         $containerBuilder = new ContainerBuilder();
         $containerBuilder->useAutowiring(true); 
         $containerBuilder->addDefinitions([
-            'directories' => [
-                $directory . '/src' 
-            ]
+            'directories' => [ dirname( __DIR__ ) ]
         ]);
         
         return $containerBuilder->build();

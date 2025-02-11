@@ -2,14 +2,15 @@
 
 namespace Tero\Services;
 
+use RuntimeException;
 use stdClass;
 use Tero\Services\ConfigService;
 
 class PromptService {
 
-    const EXT = 'php';
-    const NS = '{main}\\\\{module}';
-    const PATH = 'src/{module}/{classname}.{ext}';
+    private string $EXT = '';
+    private string $NS = '';
+    private string $PATH = '';
 
     private string $_prompt     = "";
     private string $_resource   = "";
@@ -22,6 +23,12 @@ class PromptService {
     public function __construct(ConfigService $configService)
     {
         $this->configService = $configService;
+
+        $code = $this->configService->get('code');
+
+        $this->PATH = $code->location; 
+        $this->NS   = $code->namespace;
+        $this->EXT  = $code->extension;
     }
 
     function load(string $promptText, string $resourceText, string $languageText, string $restrictionText ){
@@ -32,34 +39,28 @@ class PromptService {
         $this->_resourceObject  = NULL;
     }
 
-	private function _replace($str, $arr) { 
-		foreach ($arr as $k => $v) 
-		{
-			$str = str_replace('{'.$k.'}', $v, $str);
-		} 
-		return $str;
-	}
-
     public function resourceDecode(){
 
         $inyector = $this->configService->get('inyector'); 
 
         $item = explode("/", $this->_resource);
 
+        if(!isset($item[1])) throw new RuntimeException("The resource {$this->_resource} havent module");
+
         $resource               = new stdClass;
         $resource->main         = $inyector->namespace;
         $resource->module       = $item[0];
         $resource->classname    = $item[1];
-        $resource->ext          = self::EXT;
-        $resource->namespace    = $this->_replace(self::NS  , ["main"=> $resource->main, "module"=> $resource->module ]);
-        $resource->path         = $this->_replace(self::PATH, ["main"=> $resource->main, "module"=> $resource->module, "ext"=> $resource->ext ]);
+        $resource->ext          = $this->EXT;
+        $resource->namespace    = $this->configService->replace($this->NS  , ["main"=> $resource->main, "module"=> $resource->module ]);
+        $resource->path         = $this->configService->replace($this->PATH, ["main"=> $resource->main, "module"=> $resource->module, "ext"=> $resource->ext ]);
 
         $this->_resourceObject = $resource;
     }
 
     public function replaceResource(){
         $this->resourceDecode();
-        return $this->_replace($this->_prompt, (array)$this->_resourceObject);
+        return $this->configService->replace($this->_prompt, (array)$this->_resourceObject);
     }
 
     public function render(){
@@ -77,7 +78,7 @@ class PromptService {
 
     public function getPath(){
         if($this->_resourceObject)
-            return $this->_replace($this->_resourceObject->path, (array)$this->_resourceObject); 
+            return $this->configService->replace($this->_resourceObject->path, (array)$this->_resourceObject); 
     }
 
     public function getNamespace(){

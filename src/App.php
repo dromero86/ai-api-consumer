@@ -11,7 +11,7 @@ class App{
         $framework = new FrameworkService();
         $framework->dotEnvLoad($directory);
         $framework->setEnvVars(["BASEPATH"=> $directory]);
-        $container = $framework->dependencyInyection($directory);
+        $container = $framework->dependencyInyection();
         $entrypointService = $container->get(Services\EntrypointService::class);
         $entrypointService->main(); 
     }
