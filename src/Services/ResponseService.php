@@ -8,15 +8,12 @@ class ResponseService{
 
     private $response;
     private CodeService $codeService;
-    private ConfigService $configService;
-    private $debug;
+    private ConfigService $configService; 
     private $log;
 
     public function __construct(CodeService $codeService, ConfigService $configService){
         $this->codeService = $codeService;
         $this->configService = $configService;
-
-        $this->debug = $this->configService->get('debug');
         $this->log = $this->configService->get('log');
     }
 

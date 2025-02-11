@@ -17,7 +17,7 @@ class GenericEndpoint{
 
         $host = $this->configService->get('host');  
 
-        $this->_domain = isset($_ENV['AI_PORT']) ? $this->configService->replace($host->local , [ "AI_HOST" => $_ENV['AI_HOST'], "AI_PORT" => $_ENV['AI_PORT'] ]) : $this->configService->replace($host->remote, [ "AI_HOST" => $_ENV['AI_HOST'] ]) ;
+        $this->_domain = (filter_var($_ENV['AI_HOST'], FILTER_VALIDATE_IP) !== false)  ? $this->configService->replace($host->local , [ "AI_HOST" => $_ENV['AI_HOST'], "AI_PORT" => $_ENV['AI_PORT'] ]) : $this->configService->replace($host->remote, [ "AI_HOST" => $_ENV['AI_HOST'] ]) ;
     
     }
 

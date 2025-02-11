@@ -8,15 +8,13 @@ use Tero\Services\ConfigService;
 class RequestService{
 
     private string $prompt;
-    private ConfigService $configService;
-    private $debug;
+    private ConfigService $configService; 
     private $log;
 
     public function __construct(ConfigService $configService)
     {
         $this->configService = $configService;
-
-        $this->debug = $this->configService->get('debug');
+ 
         $this->log = $this->configService->get('log');
     }
 

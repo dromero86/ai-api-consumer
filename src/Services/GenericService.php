@@ -1,11 +1,9 @@
 <?php 
 
 namespace Tero\Services;
-
-use Dotenv\Util\Regex;
+ 
 use Garden\Cli\Args;
-use Tero\Endpoints\GenericEndpoint;
-use stdClass;
+use Tero\Endpoints\GenericEndpoint; 
 
 class GenericService{
     
