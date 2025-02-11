@@ -38,11 +38,6 @@
         "wrapper":"/```php(.*?)```/s"
     },
 
-    "debug": {
-        "debug_prompts": true,
-        "debug_response": true
-    },
-
     "log":{
         "enable": true,
         "file": "{BASEPATH}/prompt.log"

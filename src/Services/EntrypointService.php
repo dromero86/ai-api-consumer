@@ -2,7 +2,8 @@
 
 namespace Tero\Services;
 
-use Garden\Cli\Cli;  
+use Garden\Cli\Cli;
+use RuntimeException;
 use Tero\Services\GenericService;
 
 class EntrypointService{
@@ -27,12 +28,18 @@ class EntrypointService{
             $this->console->opt("{$item->name}:{$item->key}", "{$item->details}", $item->required);
         }
         
+        if(!isset($_SERVER["argv"])) throw new RuntimeException("Console input not found (argv)"); 
+
         $args = $this->console->parse((array)$_SERVER["argv"], true);
   
-        switch($args->getOpt('action'))
-        {
-            case "models": $this->genericService->models(); break;
-            case "chat_completions":  $this->genericService->chat_completions( $args ); break;
-        }
+        $action = $args->getOpt('action');
+
+        if($action == "models") 
+            $this->genericService->{$action}();
+        else
+            if ( in_array($action,["chat_completions","completions","embeddings"]) )
+                $this->genericService->{$action}($args);
+            else 
+                throw new RuntimeException("Action {$action} not found");
     }
 }
