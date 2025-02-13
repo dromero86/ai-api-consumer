@@ -29,7 +29,7 @@ class LogService {
 
         $template = $this->configService->replace($this->log->template->line, [
             'date'      => $date,
-            'type'      => $type,
+            'type'      => $type->value,
             'content'   => $data
         ]);
 
