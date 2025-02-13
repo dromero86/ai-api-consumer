@@ -2,7 +2,7 @@
     "name": "dromero86/api-ai-consumer",
     "description": "Integrator AI code generated in your project by command line",
     "type": "library",
-    "license": "GNU",
+    "license": "GFDL-1.3-or-later",
     "authors": [
         {
             "name": "Daniel Romero",
