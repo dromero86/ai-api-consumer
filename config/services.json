@@ -1,7 +1,7 @@
 {
     "inyector": {
         "namespace": "Tero",
-        "path": "{basepath}/src"
+        "path": "{BASEPATH}/src"
     },
 
     "host": {
@@ -38,11 +38,13 @@
         "wrapper":"/```php(.*?)```/s",
         "location": "src/{module}/{classname}.{ext}",
         "namespace": "{main}\\\\{module}",
-        "extension": "php"
+        "extension": "php",
+        "store": "{BASEPATH}/{file}"
     },
 
     "log":{
         "enable": true,
-        "file": "{BASEPATH}/prompt.log"
+        "file": "{BASEPATH}/prompt.log",
+        "template": { "line": "{date}: [{type}] {content}\n", "date": "Y-m-d [H:i:s]" }
     }
 }

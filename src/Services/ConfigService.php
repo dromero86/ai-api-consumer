@@ -43,8 +43,8 @@ class ConfigService {
             'api' => ['models', 'chat_completions', 'completions', 'embeddings'],
             'console' => ['message', 'args'],
             'prompt' => ['request', 'namespace', 'language', 'restriction'],
-            'code' => ['search', 'wrapper'],
-            'log' => ['enable', 'file']
+            'code' => ['search', 'wrapper', 'location', 'namespace', 'extension', 'store'],
+            'log' => ['enable', 'file', 'template']
         ];
     
         $data = json_decode( json_encode($this->jsonObject), true );

@@ -2,6 +2,8 @@
 
 namespace Tero\Services;
 
+use Tero\Services\ConfigService;
+
 class CodeService {
 
     private $scope;

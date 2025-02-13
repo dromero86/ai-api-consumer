@@ -4,6 +4,7 @@ namespace Tero\Services;
  
 use Garden\Cli\Args;
 use Tero\Endpoints\GenericEndpoint; 
+use Tero\Services\{PromptService, RequestService, ResponseService}; 
 
 class GenericService{
     
