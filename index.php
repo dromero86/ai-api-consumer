@@ -2,4 +2,4 @@
 
 require "vendor/autoload.php"; 
 
-Tero\App::Run(__DIR__);
+Dromero86\ApiAiConsumer\App::Run(__DIR__);

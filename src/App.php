@@ -1,8 +1,8 @@
 <?php 
 
-namespace Tero;
+namespace Dromero86\ApiAiConsumer;
 
-use Tero\Services\FrameworkService;
+use Dromero86\ApiAiConsumer\Services\FrameworkService;
 
 class App{
 

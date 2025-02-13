@@ -1,6 +1,6 @@
 {
     "inyector": {
-        "namespace": "Tero",
+        "namespace": "YourNamespace",
         "path": "{BASEPATH}/src"
     },
 

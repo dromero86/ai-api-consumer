@@ -1,10 +1,10 @@
 <?php 
 
-namespace Tero\Services;
+namespace Dromero86\ApiAiConsumer\Services;
 
 use Garden\Cli\Cli;
 use RuntimeException;
-use Tero\Services\GenericService;
+use Dromero86\ApiAiConsumer\Services\GenericService;
 
 class EntrypointService{
 

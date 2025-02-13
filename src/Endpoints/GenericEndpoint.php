@@ -1,9 +1,9 @@
 <?php 
 
-namespace Tero\Endpoints;
+namespace Dromero86\ApiAiConsumer\Endpoints;
 
 use \GuzzleHttp\Client;
-use Tero\Services\ConfigService;
+use Dromero86\ApiAiConsumer\Services\ConfigService;
 
 class GenericEndpoint{
     

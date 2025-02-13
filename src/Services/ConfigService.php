@@ -1,6 +1,6 @@
 <?php
 
-namespace Tero\Services;
+namespace Dromero86\ApiAiConsumer\Services;
 
 use RuntimeException;
 

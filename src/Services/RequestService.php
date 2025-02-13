@@ -1,9 +1,9 @@
 <?php  
 
-namespace Tero\Services;
+namespace Dromero86\ApiAiConsumer\Services;
 
 use stdClass; 
-use Tero\Services\{LogService, LogType};
+use Dromero86\ApiAiConsumer\Services\{LogService, LogType};
 
 class RequestService{
 

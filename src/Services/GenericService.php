@@ -1,10 +1,10 @@
 <?php 
 
-namespace Tero\Services;
+namespace Dromero86\ApiAiConsumer\Services;
  
 use Garden\Cli\Args;
-use Tero\Endpoints\GenericEndpoint; 
-use Tero\Services\{PromptService, RequestService, ResponseService}; 
+use Dromero86\ApiAiConsumer\Endpoints\GenericEndpoint; 
+use Dromero86\ApiAiConsumer\Services\{PromptService, RequestService, ResponseService}; 
 
 class GenericService{
     

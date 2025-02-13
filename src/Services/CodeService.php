@@ -1,8 +1,8 @@
 <?php
 
-namespace Tero\Services;
+namespace Dromero86\ApiAiConsumer\Services;
 
-use Tero\Services\ConfigService;
+use Dromero86\ApiAiConsumer\Services\ConfigService;
 
 class CodeService {
 

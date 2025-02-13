@@ -1,9 +1,9 @@
 <?php  
 
-namespace Tero\Services;
+namespace Dromero86\ApiAiConsumer\Services;
 
 use RuntimeException; 
-use Tero\Services\{ConfigService, CodeService, LogService, LogType};
+use Dromero86\ApiAiConsumer\Services\{ConfigService, CodeService, LogService, LogType};
 
 class ResponseService{
 
