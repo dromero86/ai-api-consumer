@@ -11,6 +11,7 @@ class PromptService {
     private string $EXT = '';
     private string $NS = '';
     private string $PATH = '';
+    private string $psr4 = '';
 
     private string $_prompt     = "";
     private string $_resource   = "";
@@ -29,6 +30,7 @@ class PromptService {
         $this->PATH = $code->location; 
         $this->NS   = $code->namespace;
         $this->EXT  = $code->extension;
+        $this->psr4 = $code->psr4;
     }
 
     function load(string $promptText, string $resourceText, string $languageText, string $restrictionText ){
@@ -41,14 +43,13 @@ class PromptService {
 
     public function resourceDecode(){
 
-        $inyector = $this->configService->get('inyector'); 
 
         $item = explode("/", $this->_resource);
 
         if(!isset($item[1])) throw new RuntimeException("The resource {$this->_resource} havent module");
 
         $resource               = new stdClass;
-        $resource->main         = $inyector->namespace;
+        $resource->main         = $this->psr4;
         $resource->module       = $item[0];
         $resource->classname    = $item[1];
         $resource->ext          = $this->EXT;

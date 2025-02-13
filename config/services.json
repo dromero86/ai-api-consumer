@@ -1,9 +1,4 @@
 {
-    "inyector": {
-        "namespace": "YourNamespace",
-        "path": "{BASEPATH}/src"
-    },
-
     "host": {
         "local": "http://{AI_HOST}:{AI_PORT}",
         "remote": "https://{AI_HOST}"
@@ -34,6 +29,7 @@
     },
 
     "code":{
+        "psr4": "YourNamespace",
         "search": "```php",
         "wrapper":"/```php(.*?)```/s",
         "location": "src/{module}/{classname}.{ext}",

@@ -37,13 +37,12 @@ class ConfigService {
     }
 
     function validarJson() {
-        $inputItems = [
-            'inyector' => ['namespace', 'path'],
+        $inputItems = [ 
             'host' => ['local', 'remote'],
             'api' => ['models', 'chat_completions', 'completions', 'embeddings'],
             'console' => ['message', 'args'],
             'prompt' => ['request', 'namespace', 'language', 'restriction'],
-            'code' => ['search', 'wrapper', 'location', 'namespace', 'extension', 'store'],
+            'code' => ['psr4','search', 'wrapper', 'location', 'namespace', 'extension', 'store'],
             'log' => ['enable', 'file', 'template']
         ];
     
