@@ -6,8 +6,8 @@ use Tero\Services\ConfigService;
 
 class CodeService {
 
-    const PHP_START_TAG = "<?php";
-    const PHP_END_TAG = "?>";
+    const PHP_START_TAG = '<?php';
+    const PHP_END_TAG = '?>';
 
     private $scope;
 
@@ -29,7 +29,7 @@ class CodeService {
         if( stripos($text, self::PHP_END_TAG) > -1 )
             $text = str_replace(self::PHP_END_TAG,"", $text);
 
-        if( stripos($text, self::PHP_START_TAG) < 0 )
+        if( stripos($text, self::PHP_START_TAG) === false )
             $text = self::PHP_START_TAG."\n".$text; 
 
         return $text;
